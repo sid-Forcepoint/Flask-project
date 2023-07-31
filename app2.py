@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
+from flask_material import Material
 
 app = Flask(__name__)
+Material(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///manager.db'
 app.secret_key = '131101'
 db = SQLAlchemy(app)
@@ -62,6 +64,7 @@ def login():
     return render_template('login.html')
 
 
+
 @app.route('/admin_panel', methods=['GET', 'POST'])
 def admin_panel():
     if 'user_id' not in session or not session['is_admin']:
@@ -72,14 +75,12 @@ def admin_panel():
         if 'add_task' in request.form:
             title = request.form['title']
             description = request.form['description']
+            user_id = int(request.form['assign_user'])
 
             # Create a new task and add it to the database
-            new_task = Task(title=title, description=description)
+            new_task = Task(title=title, description=description, user_id=user_id)
             db.session.add(new_task)
             db.session.commit()
-
-            # Redirect back to the admin panel after adding the task
-            return redirect(url_for('admin_panel'))
 
         # Check if the request is to set admin access for a user
         elif 'set_admin_user_id' in request.form:
@@ -87,7 +88,6 @@ def admin_panel():
             user = User.query.get_or_404(user_id)
             user.is_admin = True
             db.session.commit()
-            return redirect(url_for('admin_panel'))
 
         # ... Handle other actions for the admin_panel route ...
 
@@ -134,5 +134,5 @@ def create_admin_user():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        create_admin_user()
+        # create_admin_user()
     app.run(debug=True)

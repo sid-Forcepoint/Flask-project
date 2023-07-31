@@ -1,12 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/task.css')}}">
-    {% block head %}{% endblock %}
+    <title>{% block title %}My App{% endblock %}</title>
+    {% block head %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        {{ material_css() }}  {# Load Material-UI CSS #}
+        <style>
+            /* Your custom CSS styles can be placed here */
+        </style>
+        {% block custom_head %}{% endblock %}
+    {% endblock %}
 </head>
 <body>
-    {% block body %}{% endblock %}
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+    {% block javascript %}
+        {{ material_js() }}  {# Load Material-UI JS #}
+        {% block custom_js %}{% endblock %}
+    {% endblock %}
 </body>
 </html>
