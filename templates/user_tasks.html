@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Tasks</title>
+</head>
+<body>
+    <h1>Welcome to Your Task List!</h1>
+    <h2>Task List:</h2>
+    <form action="/user_tasks" method="post">
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <input type="checkbox" name="task_id" value="{{ task.id }}" id="task_{{ task.id }}">
+                    <label for="task_{{ task.id }}">{{ task.title }} - {{ task.description }}</label>
+                </li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Complete Selected Tasks">
+    </form>
+    <a href="/">Back to Home</a>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Page</title>
+</head>
+<body>
+    <h1>Welcome to the Task Page!</h1>
+    <p>This is the home page for your application.</p>
+    <a href="/register">Register</a>
+    <a href="/login">Login</a>
+
+    <h2>All Tasks:</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

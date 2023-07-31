@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Welcome to the Admin Panel!</h1>
+
+    <h2>Add Task:</h2>
+    <form action="/admin_panel" method="post">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <input type="submit" name="add_task" value="Add Task">
+    </form>
+
+    <h2>All Tasks:</h2>
+    <ul>
+        {% for task in tasks %}
+            <li>{{ task.title }} - {{ task.description }} | <a href="/update/{{ task.id }}">Edit</a> | <a href="/delete/{{ task.id }}">Delete</a></li>
+        {% endfor %}
+    </ul>
+
+    <h2>All Users:</h2>
+    <ul>
+        {% for user in users %}
+            <li>
+                {{ user.username }} | {% if not user.is_admin %}
+                <form action="/admin_panel" method="post">
+                    <input type="hidden" name="set_admin_user_id" value="{{ user.id }}">
+                    <input type="submit" value="Set Admin">
+                </form>
+                {% endif %}
+                | <a href="/update/{{ user.id }}">Edit</a> | <a href="/delete/{{ user.id }}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
